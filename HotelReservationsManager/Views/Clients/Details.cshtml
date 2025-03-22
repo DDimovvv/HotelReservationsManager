@@ -42,6 +42,49 @@
         </dd>
     </dl>
 </div>
+<div class="mt-4">
+    <h4>Reservations</h4>
+    <hr />
+
+    @if (Model.Reservations != null && Model.Reservations.Any())
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Room Number</th>
+                    <th>Check-In Date</th>
+                    <th>Check-Out Date</th>
+                    <th>Breakfast</th>
+                    <th>All Inclusive</th>
+                    <th>Final Price</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var reservation in Model.Reservations)
+                {
+                    <tr>
+                        <td>@reservation.RoomNumber</td>
+                        <td>@reservation.CheckInDate.ToShortDateString()</td>
+                        <td>@reservation.CheckOutDate.ToShortDateString()</td>
+                        <td>@(reservation.BreakfastIncluded ? "Yes" : "No")</td>
+                        <td>@(reservation.AllInclusive ? "Yes" : "No")</td>
+                        <td>@reservation.FinalPrice.ToString("C")</td>
+                        <td>
+                            <a asp-controller="Reservations" asp-action="Details" asp-route-id="@reservation.ReservationId">Details</a> |
+                            <a asp-controller="Reservations" asp-action="Edit" asp-route-id="@reservation.ReservationId">Edit</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No reservations found for this client.</p>
+    }
+    <a asp-controller="Reservations" asp-action="Create" asp-route-clientId="@Model.ClientId" class="btn btn-primary">Add Reservation</a>
+</div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.ClientId">Edit</a> |
     <a asp-action="Index">Back to List</a>
