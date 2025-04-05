@@ -143,8 +143,10 @@ namespace HotelReservationsManager.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("EGN")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("EGN")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
