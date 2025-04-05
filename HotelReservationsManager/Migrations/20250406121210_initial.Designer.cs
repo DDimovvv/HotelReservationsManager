@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelReservationsManager.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250322092525_initial")]
+    [Migration("20250406121210_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -146,8 +146,9 @@ namespace HotelReservationsManager.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("EGN")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("EGN")
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)

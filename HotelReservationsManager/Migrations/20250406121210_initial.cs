@@ -30,7 +30,7 @@ namespace HotelReservationsManager.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    EGN = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    EGN = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
                     FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     MiddleName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
