@@ -12,7 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelReservationsManager.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
+<<<<<<<< HEAD:HotelReservationsManager/Migrations/20250406121210_initial.Designer.cs
     [Migration("20250406121210_initial")]
+========
+    [Migration("20250405142706_initial")]
+>>>>>>>> 0670b5490d026b0cbfd7d8d33c68f2408d869940:HotelReservationsManager/Migrations/20250405142706_initial.Designer.cs
     partial class initial
     {
         /// <inheritdoc />
@@ -147,6 +151,10 @@ namespace HotelReservationsManager.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("EGN")
+<<<<<<<< HEAD:HotelReservationsManager/Migrations/20250406121210_initial.Designer.cs
+========
+                        .IsRequired()
+>>>>>>>> 0670b5490d026b0cbfd7d8d33c68f2408d869940:HotelReservationsManager/Migrations/20250405142706_initial.Designer.cs
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
