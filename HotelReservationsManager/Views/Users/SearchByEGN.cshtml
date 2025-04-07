@@ -1,0 +1,49 @@
+﻿@{
+    ViewData["Title"] = "Search User by EGN";
+}
+
+<h1>Search User by EGN</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <form asp-action="SearchByEGN" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="form-group mb-3">
+                        <label for="egn" class="form-label">EGN:</label>
+                        <input type="text" id="egn" name="egn" class="form-control" required maxlength="10" minlength="10" placeholder="Enter 10-digit EGN" />
+                        <small class="form-text text-muted">Enter the 10-digit EGN to search for a user.</small>
+                    </div>
+
+                    <div class="form-group mt-4">
+                        <button type="submit" class="btn btn-primary">Search</button>
+                        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Add numeric validation for EGN field
+            const egnInput = document.getElementById('egn');
+            egnInput.addEventListener('input', function() {
+                // Remove non-numeric characters
+                this.value = this.value.replace(/[^0-9]/g, '');
+                // Limit to 10 digits
+                if (this.value.length > 10) {
+                    this.value = this.value.slice(0, 10);
+                }
+            });
+        });
+    </script>
+}

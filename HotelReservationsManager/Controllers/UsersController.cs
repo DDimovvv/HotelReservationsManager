@@ -84,6 +84,11 @@ namespace Hotel_Reservations_Manager.Controllers
             return View(user);
         }
 
+        private bool UserExists(string id)
+        {
+            return _userManager.Users.Any(e => e.EGN == id);
+        }
+
         // GET: User/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
@@ -101,11 +106,6 @@ namespace Hotel_Reservations_Manager.Controllers
             return View(user);
         }
 
-        private bool UserExists(string id)
-        {
-            return _userManager.Users.Any(e => e.EGN == id);
-        }
-
         // POST: User/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -120,7 +120,7 @@ namespace Hotel_Reservations_Manager.Controllers
             {
                 try
                 {
-                    var existingUser = await _userManager.FindByIdAsync(user.Id);
+                    var existingUser = await _userManager.Users.FirstOrDefaultAsync(u => u.EGN == id);
                     if (existingUser == null)
                     {
                         return NotFound();
@@ -155,7 +155,6 @@ namespace Hotel_Reservations_Manager.Controllers
                     if (result.Succeeded)
                     {
                         return RedirectToAction(nameof(Index));
-
                     }
 
                     foreach (var error in result.Errors)
@@ -275,39 +274,32 @@ namespace Hotel_Reservations_Manager.Controllers
             ViewBag.UserName = $"{user.FirstName} {user.LastName}";
             return View();
         }
-
-        // GET: User/Activate/5
-        public async Task<IActionResult> Activate(string id)
+        // GET: User/SearchByEGN
+        public IActionResult SearchByEGN()
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var user = await _userManager.Users
-                .FirstOrDefaultAsync(m => m.EGN == id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            return View(user);
+            return View();
         }
 
-        // POST: User/Activate/5
-        [HttpPost, ActionName("Activate")]
+        // POST: User/SearchByEGN
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ActivateConfirmed(string id)
+        public async Task<IActionResult> SearchByEGN(string egn)
         {
-            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.EGN == id);
-            if (user != null)
+            if (string.IsNullOrWhiteSpace(egn))
             {
-                user.Active = true;
-                user.ReleaseDate = null;
-                await _userManager.UpdateAsync(user);
+                ModelState.AddModelError("", "Please enter an EGN to search");
+                return View();
             }
 
-            return RedirectToAction(nameof(Index));
+            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.EGN == egn);
+
+            if (user == null)
+            {
+                ModelState.AddModelError("", "No user found with the specified EGN");
+                return View();
+            }
+
+            return RedirectToAction("Details", new { id = user.EGN });
         }
     }
 }
